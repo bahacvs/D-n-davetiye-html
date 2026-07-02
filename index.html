@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f4f1ec" />
+  <title>Melis &amp; Baha · Düğün Davetiyesi</title>
+  <meta name="description" content="Melis &amp; Baha düğün davetiyesi ve katılım formu — 17.07.2026, Atagarden Kır Düğünü, Beylikdüzü/İstanbul." />
+  <style>
+    /* ————— Değişkenler ————— */
+    :root {
+      --bg: #f4f1ec;
+      --card: #faf8f4;
+      --ink: #2b2b2b;
+      --muted: #6f6f6f;
+      --line: #cfc9bf;
+      --accent: #8a8378;
+      --serif: Georgia, 'Times New Roman', 'Noto Serif', serif;
+      --script: 'Snell Roundhand', 'Apple Chancery', 'Segoe Script', 'Brush Script MT', cursive;
+      --sans: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .wrap {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 0 20px 64px;
+    }
+
+    /* ————— Davetiye ————— */
+    .invite {
+      background: var(--card);
+      border: 1px solid var(--line);
+      margin-top: 28px;
+      padding: 44px 28px 48px;
+      position: relative;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+    }
+
+    .date-vert {
+      position: absolute;
+      top: 34px;
+      right: 26px;
+      text-align: center;
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 34px;
+      line-height: 0.98;
+      letter-spacing: 2px;
+      color: var(--accent);
+      opacity: 0.85;
+    }
+
+    .monogram {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 46px;
+      letter-spacing: 4px;
+      color: var(--accent);
+      margin: 6px 0 30px;
+      font-weight: 400;
+    }
+
+    .intro {
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 13px;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 26px;
+      line-height: 1.9;
+    }
+
+    .names {
+      text-align: center;
+      font-family: var(--script);
+      font-size: 62px;
+      line-height: 1;
+      margin: 10px 0 8px;
+      color: var(--ink);
+    }
+
+    .big-date {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 30px;
+      letter-spacing: 2px;
+      margin: 4px 0 6px;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--accent);
+      margin: 18px auto;
+      max-width: 320px;
+    }
+    .divider::before, .divider::after {
+      content: "";
+      height: 1px;
+      background: var(--line);
+      flex: 1;
+    }
+    .divider span { font-size: 14px; letter-spacing: 4px; }
+
+    .families {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 0;
+      text-align: center;
+      margin: 22px 0 10px;
+    }
+    .families .fam {
+      flex: 1;
+      padding: 0 14px;
+    }
+    .families .sep {
+      width: 1px;
+      background: var(--line);
+      align-self: stretch;
+    }
+    .fam .fam-title { font-size: 22px; margin-bottom: 6px; }
+    .fam .fam-sub { font-size: 19px; color: var(--muted); }
+
+    .event {
+      text-align: center;
+      margin-top: 26px;
+    }
+    .event .label {
+      font-family: var(--sans);
+      letter-spacing: 3px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    .event .when {
+      font-family: var(--sans);
+      letter-spacing: 1px;
+      font-size: 14px;
+      color: var(--muted);
+      margin: 4px 0 16px;
+    }
+    .event .venue {
+      font-family: var(--script);
+      font-size: 34px;
+      margin: 6px 0;
+    }
+    .event .addr {
+      font-size: 18px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .event .start {
+      font-family: var(--sans);
+      letter-spacing: 2px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 16px;
+    }
+
+    /* ————— Bölüm başlığı ————— */
+    .section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-top: none;
+      padding: 34px 26px 38px;
+    }
+    .section h2 {
+      text-align: center;
+      font-family: var(--serif);
+      font-size: 27px;
+      font-weight: 400;
+      margin: 0 0 6px;
+      letter-spacing: 1px;
+    }
+    .section .sub {
+      text-align: center;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0 auto 24px;
+      max-width: 380px;
+    }
+
+    /* ————— Form ————— */
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-family: var(--sans);
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: var(--ink);
+      margin-bottom: 7px;
+    }
+    .field input[type="text"],
+    .field input[type="number"] {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 16px; /* iOS zoom önleme */
+      font-family: var(--sans);
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .field input:focus { border-color: var(--accent); }
+
+    .status-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .status-option {
+      position: relative;
+    }
+    .status-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0; height: 0;
+    }
+    .status-option label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 10px;
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      cursor: pointer;
+      font-family: var(--sans);
+      font-size: 15px;
+      text-align: center;
+      transition: all 0.15s;
+      user-select: none;
+    }
+    .status-option input:checked + label {
+      border-color: var(--accent);
+      background: #efeae1;
+      font-weight: 600;
+      box-shadow: inset 0 0 0 1px var(--accent);
+    }
+    .status-option input:focus-visible + label {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Honeypot — ekran dışı, ekran okuyuculardan da gizli */
+    .hp {
+      position: absolute !important;
+      left: -9999px !important;
+      width: 1px; height: 1px;
+      overflow: hidden;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 18px;
+      font-family: var(--sans);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #fff;
+      background: #4a463f;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, opacity 0.15s;
+      text-decoration: none;
+    }
+    .btn:hover { background: #35322c; }
+    .btn:disabled { opacity: 0.6; cursor: default; }
+
+    .btn-outline {
+      color: #4a463f;
+      background: #fff;
+      border: 1px solid var(--accent);
+    }
+    .btn-outline:hover { background: #efeae1; }
+
+    .form-msg {
+      display: none;
+      font-family: var(--sans);
+      font-size: 14px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .form-msg.error {
+      display: block;
+      background: #fbeaea;
+      color: #8a2b2b;
+      border: 1px solid #e6bcbc;
+    }
+
+    .kvkk {
+      font-family: var(--sans);
+      font-size: 11.5px;
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: center;
+      margin-top: 18px;
+    }
+
+    /* ————— Başarı ekranı ————— */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 20px 6px;
+    }
+    .success.show { display: block; }
+    .success .check {
+      width: 58px; height: 58px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #efeae1;
+      border: 1px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--accent);
+      font-size: 30px;
+    }
+    .success h3 {
+      font-family: var(--script);
+      font-size: 40px;
+      font-weight: 400;
+      margin: 0 0 8px;
+    }
+    .success p {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* ————— Konum ————— */
+    .location {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 2px 2px;
+      padding: 32px 26px 36px;
+      text-align: center;
+    }
+    .location h2 {
+      font-family: var(--serif);
+      font-size: 24px;
+      font-weight: 400;
+      margin: 0 0 4px;
+    }
+    .location .venue-name {
+      font-family: var(--script);
+      font-size: 30px;
+      margin: 6px 0;
+    }
+    .location .addr {
+      font-family: var(--sans);
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0 auto 22px;
+      max-width: 360px;
+    }
+    .location .btn { margin-bottom: 10px; }
+    .location .maps-alt {
+      font-family: var(--sans);
+      font-size: 13px;
+    }
+    .location .maps-alt a { color: var(--accent); }
+
+    .foot {
+      text-align: center;
+      font-family: var(--script);
+      font-size: 26px;
+      color: var(--accent);
+      margin-top: 30px;
+    }
+
+    /* ————— Küçük ekran ayarları ————— */
+    @media (max-width: 480px) {
+      .names { font-size: 48px; }
+      .monogram { font-size: 40px; }
+      .date-vert { font-size: 28px; top: 28px; right: 20px; }
+      .event .venue { font-size: 28px; }
+      .invite { padding: 40px 20px 44px; }
+      .fam .fam-title { font-size: 19px; }
+      .fam .fam-sub { font-size: 16px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+
+    <!-- ==================== DAVETİYE ==================== -->
+    <section class="invite" aria-label="Düğün Davetiyesi">
+      <div class="date-vert" aria-hidden="true">17<br />07<br />26</div>
+      <div class="monogram">M&nbsp;|&nbsp;B</div>
+
+      <p class="intro">Bu özel günümüzde sizleri de aramızda görmekten büyük mutluluk duyarız.</p>
+
+      <h1 class="names">Melis &amp; Baha</h1>
+      <div class="big-date">17.07.2026</div>
+
+      <div class="divider" aria-hidden="true"><span>❧</span></div>
+
+      <div class="families">
+        <div class="fam">
+          <div class="fam-title">Çapri Ailesi</div>
+          <div class="fam-sub">Nurşen &amp; Ertan</div>
+        </div>
+        <div class="sep" aria-hidden="true"></div>
+        <div class="fam">
+          <div class="fam-title">Çavuşoğlu Ailesi</div>
+          <div class="fam-sub">Gülay &amp; Ahmet</div>
+        </div>
+      </div>
+
+      <div class="event">
+        <div class="label">DÜĞÜN</div>
+        <div class="when">17 Temmuz 2026 Cuma · Saat 19.00</div>
+        <div class="venue">Atagarden Kır Düğünü</div>
+        <div class="addr">
+          Sahil Mahallesi Marmara Caddesi<br />
+          Ali Şir Nevai Sokak No:3<br />
+          Beylikdüzü / İstanbul
+        </div>
+        <div class="start">BAŞLANGIÇ SAATİ 19.00</div>
+      </div>
+    </section>
+
+    <!-- ==================== LCV FORMU ==================== -->
+    <section class="section" aria-label="Katılım Formu">
+      <h2>Katılım Formu</h2>
+      <p class="sub">Lütfen katılım durumunuzu bizimle paylaşın. Sizi ağırlamayı çok isteriz.</p>
+
+      <div id="formMsg" class="form-msg" role="alert"></div>
+
+      <form id="rsvpForm" novalidate>
+        <div class="field">
+          <label for="ad">Ad</label>
+          <input type="text" id="ad" name="ad" autocomplete="given-name"
+                 maxlength="50" required placeholder="Adınız" />
+        </div>
+
+        <div class="field">
+          <label for="soyad">Soyad</label>
+          <input type="text" id="soyad" name="soyad" autocomplete="family-name"
+                 maxlength="50" required placeholder="Soyadınız" />
+        </div>
+
+        <div class="field">
+          <label>Katılım Durumu</label>
+          <div class="status-group" role="radiogroup" aria-label="Katılım durumu">
+            <div class="status-option">
+              <input type="radio" id="stKatiliyorum" name="durum" value="Katılıyorum" required />
+              <label for="stKatiliyorum">✓ Katılıyorum</label>
+            </div>
+            <div class="status-option">
+              <input type="radio" id="stKatilmiyorum" name="durum" value="Katılmıyorum" />
+              <label for="stKatilmiyorum">✕ Katılmıyorum</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="field" id="kisiField">
+          <label for="kisi">Kişi Sayısı</label>
+          <input type="number" id="kisi" name="kisi" min="1" max="8" step="1"
+                 inputmode="numeric" placeholder="Örn. 2" />
+        </div>
+
+        <!-- Honeypot: gerçek kullanıcılar görmez/doldurmaz -->
+        <div class="hp" aria-hidden="true">
+          <label for="web">Web sitesi (boş bırakın)</label>
+          <input type="text" id="web" name="web" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn" id="submitBtn">Gönder</button>
+
+        <p class="kvkk">
+          Bu form ile paylaştığınız ad, soyad ve kişi sayısı bilgileri yalnızca düğün
+          organizasyonu kapsamında, katılımcı takibi amacıyla işlenir; üçüncü kişilerle
+          paylaşılmaz ve organizasyon sonrası silinir.
+        </p>
+      </form>
+
+      <!-- Başarı ekranı -->
+      <div class="success" id="successBox">
+        <div class="check" aria-hidden="true">✓</div>
+        <h3>Teşekkürler!</h3>
+        <p>Katılım bilginiz bize ulaştı. Sizi aramızda görmek için sabırsızlanıyoruz.</p>
+      </div>
+    </section>
+
+    <!-- ==================== KONUM ==================== -->
+    <section class="location" aria-label="Mekan Konumu">
+      <h2>Konum</h2>
+      <div class="venue-name">Atagarden Kır Düğünü</div>
+      <p class="addr">
+        Sahil Mah. Marmara Cad. Ali Şir Nevai Sok. No:3<br />
+        Beylikdüzü / İstanbul
+      </p>
+      <a class="btn" id="navBtn"
+         href="https://www.google.com/maps/dir/?api=1&amp;destination=Atagarden%20K%C4%B1r%20D%C3%BC%C4%9F%C3%BCn%C3%BC%20Sahil%20Mah.%20Marmara%20Cad.%20Ali%20%C5%9Fir%20Nevai%20Sok.%20No%3A3%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul"
+         target="_blank" rel="noopener">📍 Konuma Git · Yol Tarifi Al</a>
+      <div class="maps-alt">
+        <a href="https://maps.apple.com/?daddr=Atagarden%20K%C4%B1r%20D%C3%BC%C4%9F%C3%BCn%C3%BC%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul"
+           target="_blank" rel="noopener">Apple Haritalar ile aç</a>
+      </div>
+    </section>
+
+    <div class="foot">Melis &amp; Baha</div>
+  </main>
+
+  <script>
+    // ————— Apps Script Web App URL'i —————
+    // KURULUM.md'deki adımlarla oluşturduğunuz Web App URL'ini buraya yapıştırın.
+    // Örn: "https://script.google.com/macros/s/AKfyc.../exec"
+    var APPS_SCRIPT_URL = "BURAYA_APPS_SCRIPT_WEB_APP_URL_YAPISTIRIN";
+
+    var form = document.getElementById('rsvpForm');
+    var submitBtn = document.getElementById('submitBtn');
+    var formMsg = document.getElementById('formMsg');
+    var successBox = document.getElementById('successBox');
+    var kisiField = document.getElementById('kisiField');
+    var kisiInput = document.getElementById('kisi');
+    var radios = document.getElementsByName('durum');
+
+    // Katılmıyorum seçilince kişi sayısı alanını gizle/pasifleştir
+    function syncKisi() {
+      var val = getStatus();
+      if (val === 'Katılmıyorum') {
+        kisiField.style.display = 'none';
+        kisiInput.value = '';
+        kisiInput.removeAttribute('required');
+      } else {
+        kisiField.style.display = '';
+        if (val === 'Katılıyorum') kisiInput.setAttribute('required', 'required');
+      }
+    }
+    function getStatus() {
+      for (var i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return radios[i].value;
+      }
+      return '';
+    }
+    for (var i = 0; i < radios.length; i++) {
+      radios[i].addEventListener('change', syncKisi);
+    }
+    syncKisi();
+
+    function showError(msg) {
+      formMsg.textContent = msg;
+      formMsg.className = 'form-msg error';
+    }
+    function clearError() {
+      formMsg.textContent = '';
+      formMsg.className = 'form-msg';
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearError();
+
+      var ad = document.getElementById('ad').value.trim();
+      var soyad = document.getElementById('soyad').value.trim();
+      var durum = getStatus();
+      var web = document.getElementById('web').value; // honeypot
+
+      // Hafif istemci tarafı validasyon (asıl kontrol sunucuda)
+      if (ad.length < 2) { showError('Lütfen adınızı girin.'); return; }
+      if (soyad.length < 2) { showError('Lütfen soyadınızı girin.'); return; }
+      if (!durum) { showError('Lütfen katılım durumunuzu seçin.'); return; }
+
+      var kisi = 0;
+      if (durum === 'Katılıyorum') {
+        kisi = parseInt(kisiInput.value, 10);
+        if (!(kisi >= 1 && kisi <= 8)) {
+          showError('Lütfen 1 ile 8 arasında bir kişi sayısı girin.');
+          return;
+        }
+      }
+
+      if (APPS_SCRIPT_URL.indexOf('BURAYA_') === 0) {
+        showError('Form henüz yapılandırılmadı (Apps Script URL eksik).');
+        return;
+      }
+
+      var payload = { ad: ad, soyad: soyad, durum: durum, kisi: kisi, web: web };
+
+      submitBtn.disabled = true;
+      var originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Gönderiliyor…';
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        // text/plain: Apps Script CORS preflight'ı desteklemez, bu yaygın çözümdür
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (data && data.ok) {
+            form.style.display = 'none';
+            successBox.classList.add('show');
+            successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          } else {
+            var m = (data && data.error) ? data.error : 'Kaydınız iletilemedi, lütfen tekrar deneyin.';
+            showError(m);
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalText;
+          }
+        })
+        .catch(function () {
+          showError('Kaydınız iletilemedi, lütfen tekrar deneyin.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+        });
+    });
+  </script>
+</body>
+</html>
