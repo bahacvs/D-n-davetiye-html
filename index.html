@@ -3,230 +3,356 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#f4f1ec" />
-  <title>evleniyoruzzz</title>
+  <meta name="theme-color" content="#f6f2ea" />
+  <title>Melis &amp; Baha · 17.07.2026</title>
   <meta name="description" content="Melis &amp; Baha düğün davetiyesi ve katılım formu — 17.07.2026, Atagarden Kır Düğünü, Beylikdüzü/İstanbul." />
+
+  <!-- Open Graph (paylaşım önizlemesi) -->
+  <meta property="og:title" content="Melis &amp; Baha · Düğün Davetiyesi" />
+  <meta property="og:description" content="17 Temmuz 2026 Cuma · Atagarden Kır Düğünü, Beylikdüzü / İstanbul. Katılımınızı bildirmek için tıklayın." />
+  <meta property="og:type" content="website" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
   <style>
     /* ————— Değişkenler ————— */
     :root {
-      --bg: #f4f1ec;
-      --card: #faf8f4;
-      --ink: #2b2b2b;
-      --muted: #6f6f6f;
-      --line: #cfc9bf;
-      --accent: #8a8378;
-      --serif: Georgia, 'Times New Roman', 'Noto Serif', serif;
-      --script: 'Snell Roundhand', 'Apple Chancery', 'Segoe Script', 'Brush Script MT', cursive;
-      --sans: 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+      --bg:      #f6f2ea;
+      --bg-2:    #efe8da;
+      --card:    #fffdf9;
+      --ink:     #3d3a33;
+      --muted:   #8f887a;
+      --line:    #e2dbcc;
+      --gold:    #b0964f;
+      --gold-soft:#c9b789;
+      --sage:    #6f7663;
+      --sage-dk: #565c4b;
+      --sage-tint:#eef0e8;
+
+      --serif:  'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --script: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+      --sans:   'Jost', 'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
     }
 
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
     body {
-      background: var(--bg);
+      background:
+        radial-gradient(120% 60% at 50% -10%, #fbf8f2 0%, var(--bg) 55%, var(--bg-2) 100%);
+      background-attachment: fixed;
       color: var(--ink);
       font-family: var(--serif);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     .wrap {
-      max-width: 620px;
+      max-width: 600px;
       margin: 0 auto;
-      padding: 0 20px 64px;
+      padding: 26px 18px 70px;
     }
 
-    /* ————— Davetiye ————— */
-    .invite {
+    /* ————— Ortak kart ————— */
+    .card {
       background: var(--card);
       border: 1px solid var(--line);
-      margin-top: 28px;
-      padding: 44px 28px 48px;
+      border-radius: 16px;
+      box-shadow: 0 18px 50px -24px rgba(80,70,45,0.28);
+      margin-bottom: 20px;
       position: relative;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+      overflow: hidden;
     }
 
-    .date-vert {
-      position: absolute;
-      top: 34px;
-      right: 26px;
-      text-align: center;
-      font-family: var(--sans);
-      font-weight: 300;
-      font-size: 34px;
-      line-height: 0.98;
-      letter-spacing: 2px;
-      color: var(--accent);
-      opacity: 0.85;
+    /* ————— Beliriş animasyonu ————— */
+    .reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
     }
 
-    .monogram {
-      text-align: center;
-      font-family: var(--serif);
-      font-size: 46px;
-      letter-spacing: 4px;
-      color: var(--accent);
-      margin: 6px 0 30px;
-      font-weight: 400;
-    }
-
-    .intro {
-      text-align: center;
-      font-family: var(--sans);
-      font-size: 13px;
-      letter-spacing: 1.4px;
-      text-transform: uppercase;
-      color: var(--muted);
-      max-width: 420px;
-      margin: 0 auto 26px;
-      line-height: 1.9;
-    }
-
-    .names {
-      text-align: center;
-      font-family: var(--script);
-      font-size: 62px;
-      line-height: 1;
-      margin: 10px 0 8px;
-      color: var(--ink);
-    }
-
-    .big-date {
-      text-align: center;
-      font-family: var(--serif);
-      font-size: 30px;
-      letter-spacing: 2px;
-      margin: 4px 0 6px;
-    }
-
-    .divider {
+    /* ————— Ortak süs ————— */
+    .ornament {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      color: var(--accent);
-      margin: 18px auto;
-      max-width: 320px;
+      gap: 14px;
+      color: var(--gold);
+      margin: 0 auto;
     }
-    .divider::before, .divider::after {
-      content: "";
+    .ornament .rule {
       height: 1px;
-      background: var(--line);
-      flex: 1;
+      width: 64px;
+      background: linear-gradient(90deg, transparent, var(--gold-soft));
     }
-    .divider span { font-size: 14px; letter-spacing: 4px; }
+    .ornament .rule.r { background: linear-gradient(90deg, var(--gold-soft), transparent); }
+    .ornament svg { display: block; }
 
-    .families {
-      display: flex;
-      justify-content: center;
-      align-items: stretch;
-      gap: 0;
+    .eyebrow {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 3.5px;
+      text-transform: uppercase;
+      color: var(--gold);
       text-align: center;
-      margin: 22px 0 10px;
     }
-    .families .fam {
-      flex: 1;
-      padding: 0 14px;
-    }
-    .families .sep {
-      width: 1px;
-      background: var(--line);
-      align-self: stretch;
-    }
-    .fam .fam-title { font-size: 22px; margin-bottom: 6px; }
-    .fam .fam-sub { font-size: 19px; color: var(--muted); }
 
-    .event {
+    /* ==================== DAVETİYE (HERO) ==================== */
+    .invite {
+      padding: 46px 30px 44px;
       text-align: center;
-      margin-top: 26px;
     }
-    .event .label {
-      font-family: var(--sans);
-      letter-spacing: 3px;
-      font-size: 15px;
-      font-weight: 600;
+    /* köşe botanik illüstrasyonları */
+    .leaf-corner {
+      position: absolute;
+      width: 150px; height: 150px;
+      opacity: 0.10;
+      color: var(--sage);
+      pointer-events: none;
     }
-    .event .when {
-      font-family: var(--sans);
+    .leaf-corner.tl { top: -18px; left: -18px; }
+    .leaf-corner.br { bottom: -18px; right: -18px; transform: rotate(180deg); }
+
+    .monogram {
+      width: 84px; height: 84px;
+      margin: 4px auto 20px;
+      border: 1px solid var(--gold-soft);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 30px;
       letter-spacing: 1px;
-      font-size: 14px;
+      color: var(--gold);
+      position: relative;
+    }
+    .monogram::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+    }
+
+    .intro {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      line-height: 2;
       color: var(--muted);
-      margin: 4px 0 16px;
+      max-width: 360px;
+      margin: 0 auto 22px;
+      text-transform: uppercase;
     }
-    .event .venue {
+
+    .names {
       font-family: var(--script);
-      font-size: 34px;
-      margin: 6px 0;
+      font-style: italic;
+      font-size: 68px;
+      line-height: 1.08;
+      margin: 8px 0 2px;
+      color: var(--ink);
+      font-weight: 500;
+      letter-spacing: 0.5px;
     }
-    .event .addr {
-      font-size: 18px;
+    .names .amp { color: var(--gold); font-weight: 400; }
+
+    .subtitle {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 6px 0 22px;
+    }
+
+    .hero-date {
+      display: inline-flex;
+      align-items: center;
+      gap: 16px;
+      font-family: var(--serif);
+      font-weight: 500;
+      margin: 6px 0 4px;
+    }
+    .hero-date .d {
+      font-size: 34px;
+      letter-spacing: 1px;
+    }
+    .hero-date .v {
+      width: 1px; height: 34px;
+      background: var(--line);
+    }
+    .hero-date .m {
+      text-align: left;
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 12px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
       color: var(--muted);
       line-height: 1.5;
     }
-    .event .start {
-      font-family: var(--sans);
-      letter-spacing: 2px;
-      font-size: 13px;
+
+    /* ————— Geri sayım ————— */
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 26px auto 6px;
+      max-width: 340px;
+    }
+    .cd-cell {
+      flex: 1;
+      background: var(--sage-tint);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 4px 9px;
+    }
+    .cd-cell .num {
+      font-family: var(--serif);
       font-weight: 600;
-      margin-top: 16px;
+      font-size: 30px;
+      line-height: 1;
+      color: var(--sage-dk);
+      font-variant-numeric: tabular-nums;
+    }
+    .cd-cell .lab {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .cd-note {
+      font-family: var(--sans);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-top: 14px;
     }
 
-    /* ————— Bölüm başlığı ————— */
-    .section {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-top: none;
-      padding: 34px 26px 38px;
-    }
-    .section h2 {
-      text-align: center;
+    /* ==================== BÖLÜM BAŞLIĞI ==================== */
+    .section { padding: 38px 28px 34px; }
+    .section-head { text-align: center; margin-bottom: 26px; }
+    .section-head h2 {
       font-family: var(--serif);
-      font-size: 27px;
-      font-weight: 400;
-      margin: 0 0 6px;
-      letter-spacing: 1px;
+      font-weight: 500;
+      font-size: 34px;
+      margin: 12px 0 8px;
+      letter-spacing: 0.5px;
     }
-    .section .sub {
-      text-align: center;
+    .section-head .sub {
       font-family: var(--sans);
+      font-weight: 300;
       font-size: 13px;
       color: var(--muted);
-      margin: 0 auto 24px;
+      margin: 0 auto;
       max-width: 380px;
+      line-height: 1.7;
     }
 
-    /* ————— Form ————— */
+    /* ————— Aileler & etkinlik ————— */
+    .families {
+      display: flex;
+      align-items: stretch;
+      text-align: center;
+      margin: 4px 0 4px;
+    }
+    .families .fam { flex: 1; padding: 0 12px; }
+    .families .sep { width: 1px; background: var(--line); }
+    .fam .fam-title {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 22px;
+      letter-spacing: 0.3px;
+    }
+    .fam .fam-sub {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 14px;
+      letter-spacing: 0.5px;
+      color: var(--muted);
+      margin-top: 3px;
+    }
+
+    .event {
+      text-align: center;
+      margin-top: 8px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .event .venue {
+      font-family: var(--script);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 36px;
+      line-height: 1.15;
+      color: var(--ink);
+      margin: 8px 0 6px;
+    }
+    .event .when {
+      font-family: var(--serif);
+      font-weight: 500;
+      font-size: 20px;
+      letter-spacing: 0.5px;
+      margin: 2px 0 10px;
+    }
+    .event .addr {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ==================== FORM ==================== */
     .field { margin-bottom: 18px; }
-    .field label {
+    .field > label {
       display: block;
       font-family: var(--sans);
-      font-size: 13px;
-      letter-spacing: 0.5px;
-      color: var(--ink);
-      margin-bottom: 7px;
+      font-weight: 500;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 8px;
     }
     .field input[type="text"],
     .field input[type="number"] {
       width: 100%;
-      padding: 13px 14px;
+      padding: 14px 15px;
       font-size: 16px; /* iOS zoom önleme */
       font-family: var(--sans);
+      font-weight: 400;
       color: var(--ink);
-      background: #fff;
+      background: #fffefb;
       border: 1px solid var(--line);
-      border-radius: 8px;
+      border-radius: 10px;
       outline: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.18s, box-shadow 0.18s;
     }
-    .field input:focus { border-color: var(--accent); }
+    .field input::placeholder { color: #bdb6a7; }
+    .field input:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(111,118,99,0.12);
+    }
 
     .status-group {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
-    }
-    .status-option {
-      position: relative;
     }
     .status-option input {
       position: absolute;
@@ -238,30 +364,34 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      padding: 14px 10px;
+      padding: 15px 10px;
       margin: 0;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
+      border-radius: 10px;
+      background: #fffefb;
       cursor: pointer;
       font-family: var(--sans);
+      font-weight: 400;
       font-size: 15px;
+      color: var(--ink);
       text-align: center;
-      transition: all 0.15s;
+      transition: all 0.18s;
       user-select: none;
     }
+    .status-option label .ic { font-size: 14px; }
     .status-option input:checked + label {
-      border-color: var(--accent);
-      background: #efeae1;
-      font-weight: 600;
-      box-shadow: inset 0 0 0 1px var(--accent);
+      border-color: var(--sage);
+      background: var(--sage-tint);
+      font-weight: 500;
+      box-shadow: inset 0 0 0 1px var(--sage);
+      color: var(--sage-dk);
     }
     .status-option input:focus-visible + label {
-      outline: 2px solid var(--accent);
+      outline: 2px solid var(--sage);
       outline-offset: 2px;
     }
 
-    /* Honeypot — ekran dışı, ekran okuyuculardan da gizli */
+    /* Honeypot */
     .hp {
       position: absolute !important;
       left: -9999px !important;
@@ -275,50 +405,46 @@
       justify-content: center;
       gap: 10px;
       width: 100%;
-      padding: 15px 18px;
+      padding: 16px 18px;
       font-family: var(--sans);
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: 1px;
       color: #fff;
-      background: #4a463f;
+      background: var(--sage);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
-      transition: background 0.15s, opacity 0.15s;
+      transition: background 0.18s, transform 0.08s, box-shadow 0.18s;
       text-decoration: none;
+      box-shadow: 0 10px 24px -12px rgba(86,92,75,0.7);
     }
-    .btn:hover { background: #35322c; }
+    .btn:hover { background: var(--sage-dk); }
+    .btn:active { transform: translateY(1px); }
     .btn:disabled { opacity: 0.6; cursor: default; }
-
-    .btn-outline {
-      color: #4a463f;
-      background: #fff;
-      border: 1px solid var(--accent);
-    }
-    .btn-outline:hover { background: #efeae1; }
 
     .form-msg {
       display: none;
       font-family: var(--sans);
       font-size: 14px;
       padding: 12px 14px;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-bottom: 16px;
       text-align: center;
     }
     .form-msg.error {
       display: block;
-      background: #fbeaea;
-      color: #8a2b2b;
-      border: 1px solid #e6bcbc;
+      background: #fbeceb;
+      color: #9a3b32;
+      border: 1px solid #ecc9c5;
     }
 
     .kvkk {
       font-family: var(--sans);
+      font-weight: 300;
       font-size: 11.5px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.7;
       text-align: center;
       margin-top: 18px;
     }
@@ -327,84 +453,112 @@
     .success {
       display: none;
       text-align: center;
-      padding: 20px 6px;
+      padding: 14px 6px;
     }
-    .success.show { display: block; }
+    .success.show { display: block; animation: pop 0.5s ease; }
+    @keyframes pop {
+      from { opacity: 0; transform: scale(0.96); }
+      to   { opacity: 1; transform: none; }
+    }
     .success .check {
-      width: 58px; height: 58px;
+      width: 66px; height: 66px;
       margin: 0 auto 18px;
       border-radius: 50%;
-      background: #efeae1;
-      border: 1px solid var(--accent);
+      background: var(--sage-tint);
+      border: 1px solid var(--sage);
       display: flex; align-items: center; justify-content: center;
-      color: var(--accent);
-      font-size: 30px;
+      color: var(--sage);
+      font-size: 32px;
     }
     .success h3 {
       font-family: var(--script);
-      font-size: 40px;
-      font-weight: 400;
+      font-style: italic;
+      font-size: 42px;
+      font-weight: 500;
       margin: 0 0 8px;
+      color: var(--ink);
     }
     .success p {
       font-family: var(--sans);
+      font-weight: 300;
       font-size: 14px;
       color: var(--muted);
-      margin: 0;
+      margin: 0 auto;
+      max-width: 340px;
+      line-height: 1.7;
     }
 
-    /* ————— Konum ————— */
-    .location {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-top: none;
-      border-radius: 0 0 2px 2px;
-      padding: 32px 26px 36px;
-      text-align: center;
-    }
-    .location h2 {
-      font-family: var(--serif);
-      font-size: 24px;
-      font-weight: 400;
-      margin: 0 0 4px;
-    }
+    /* ==================== KONUM ==================== */
+    .location { padding: 38px 28px 34px; text-align: center; }
     .location .venue-name {
       font-family: var(--script);
-      font-size: 30px;
-      margin: 6px 0;
+      font-style: italic;
+      font-weight: 500;
+      font-size: 32px;
+      color: var(--ink);
+      margin: 8px 0 6px;
     }
     .location .addr {
       font-family: var(--sans);
+      font-weight: 300;
       font-size: 14px;
       color: var(--muted);
-      line-height: 1.6;
+      line-height: 1.7;
       margin: 0 auto 22px;
-      max-width: 360px;
+      max-width: 340px;
     }
-    .location .btn { margin-bottom: 10px; }
+    .location .btn { margin-bottom: 12px; }
     .location .maps-alt {
       font-family: var(--sans);
+      font-weight: 400;
       font-size: 13px;
+      letter-spacing: 0.3px;
     }
-    .location .maps-alt a { color: var(--accent); }
+    .location .maps-alt a {
+      color: var(--sage);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1px;
+    }
+    .location .maps-alt a:hover { border-color: var(--sage); }
 
     .foot {
       text-align: center;
-      font-family: var(--script);
-      font-size: 26px;
-      color: var(--accent);
       margin-top: 30px;
     }
+    .foot .names-sm {
+      font-family: var(--script);
+      font-style: italic;
+      font-weight: 500;
+      font-size: 32px;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .foot .tag {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 10px;
+    }
 
-    /* ————— Küçük ekran ayarları ————— */
+    /* ————— Küçük ekran ————— */
     @media (max-width: 480px) {
-      .names { font-size: 48px; }
-      .monogram { font-size: 40px; }
-      .date-vert { font-size: 28px; top: 28px; right: 20px; }
-      .event .venue { font-size: 28px; }
-      .invite { padding: 40px 20px 44px; }
+      .names { font-size: 54px; }
+      .invite { padding: 40px 22px 38px; }
+      .section, .location { padding: 32px 20px 30px; }
+      .event .venue { font-size: 34px; }
+      .location .venue-name { font-size: 32px; }
       .fam .fam-title { font-size: 19px; }
-      .fam .fam-sub { font-size: 16px; }
+      .hero-date .d { font-size: 28px; }
+      .cd-cell .num { font-size: 25px; }
+      .section-head h2 { font-size: 29px; }
+    }
+    @media (max-width: 340px) {
+      .names { font-size: 48px; }
+      .countdown { gap: 7px; }
     }
   </style>
 </head>
@@ -412,16 +566,53 @@
   <main class="wrap">
 
     <!-- ==================== DAVETİYE ==================== -->
-    <section class="invite" aria-label="Düğün Davetiyesi">
-      <div class="date-vert" aria-hidden="true">17<br />07<br />26</div>
-      <div class="monogram">M&nbsp;|&nbsp;B</div>
+    <section class="invite card reveal" aria-label="Düğün Davetiyesi">
+      <!-- köşe yaprakları -->
+      <svg class="leaf-corner tl" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <path d="M2 2C30 8 52 26 62 52c8 21 6 34 6 46" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M20 12c10 2 16 9 17 20-11 1-19-6-17-20zM34 30c10 3 15 11 14 22-11-1-17-9-14-22zM47 52c9 4 13 12 11 23-10-2-15-11-11-23z" fill="currentColor"/>
+      </svg>
+      <svg class="leaf-corner br" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <path d="M2 2C30 8 52 26 62 52c8 21 6 34 6 46" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M20 12c10 2 16 9 17 20-11 1-19-6-17-20zM34 30c10 3 15 11 14 22-11-1-17-9-14-22zM47 52c9 4 13 12 11 23-10-2-15-11-11-23z" fill="currentColor"/>
+      </svg>
 
-      <p class="intro">Bu özel günümüzde sizleri de aramızda görmekten büyük mutluluk duyarız.</p>
+      <div class="monogram">M&nbsp;&amp;&nbsp;B</div>
 
-      <h1 class="names">Melis &amp; Baha</h1>
-      <div class="big-date">17.07.2026</div>
+      <p class="intro">Hayatımızın en özel gününde<br />sizleri de aramızda görmek isteriz</p>
 
-      <div class="divider" aria-hidden="true"><span>❧</span></div>
+      <h1 class="names">Melis <span class="amp">&amp;</span> Baha</h1>
+      <div class="subtitle">Evleniyoruz</div>
+
+      <div class="ornament" aria-hidden="true">
+        <span class="rule"></span>
+        <svg width="22" height="14" viewBox="0 0 22 14" fill="currentColor"><path d="M11 0c1.6 3.4 4 5 8 5.5-3.6 1-6 2.8-8 5.5-2-2.7-4.4-4.5-8-5.5C7 5 9.4 3.4 11 0z"/><circle cx="11" cy="12.4" r="1.3"/></svg>
+        <span class="rule r"></span>
+      </div>
+
+      <div class="hero-date">
+        <span class="d">17</span>
+        <span class="v"></span>
+        <span class="m">Temmuz<br />2026</span>
+      </div>
+      <div class="subtitle" style="margin-top:12px">Cuma · Saat 19.00</div>
+
+      <!-- Geri sayım -->
+      <div class="countdown" id="countdown" aria-label="Düğüne kalan süre">
+        <div class="cd-cell"><div class="num" id="cdD">–</div><div class="lab">Gün</div></div>
+        <div class="cd-cell"><div class="num" id="cdH">–</div><div class="lab">Saat</div></div>
+        <div class="cd-cell"><div class="num" id="cdM">–</div><div class="lab">Dakika</div></div>
+        <div class="cd-cell"><div class="num" id="cdS">–</div><div class="lab">Saniye</div></div>
+      </div>
+      <div class="cd-note" id="cdNote" style="display:none">Bugün büyük gün! 🤍</div>
+    </section>
+
+    <!-- ==================== AİLELER + ETKİNLİK ==================== -->
+    <section class="section card reveal" aria-label="Aileler ve Etkinlik">
+      <div class="section-head">
+        <div class="eyebrow">Sizleri Davet Ediyor</div>
+        <h2>Aileler</h2>
+      </div>
 
       <div class="families">
         <div class="fam">
@@ -436,22 +627,24 @@
       </div>
 
       <div class="event">
-        <div class="label">DÜĞÜN</div>
-        <div class="when">17 Temmuz 2026 Cuma · Saat 19.00</div>
+        <div class="eyebrow">Düğün Töreni</div>
         <div class="venue">Atagarden Kır Düğünü</div>
+        <div class="when">17 Temmuz 2026 · Cuma · 19.00</div>
         <div class="addr">
-          Sahil Mahallesi Marmara Caddesi<br />
+          Sahil Mahallesi, Marmara Caddesi<br />
           Ali Şir Nevai Sokak No:3<br />
           Beylikdüzü / İstanbul
         </div>
-        <div class="start">BAŞLANGIÇ SAATİ 19.00</div>
       </div>
     </section>
 
     <!-- ==================== LCV FORMU ==================== -->
-    <section class="section" aria-label="Katılım Formu">
-      <h2>Katılım Formu</h2>
-      <p class="sub">Lütfen katılım durumunuzu bizimle paylaşın. Sizi ağırlamayı çok isteriz.</p>
+    <section class="section card reveal" aria-label="Katılım Formu">
+      <div class="section-head">
+        <div class="eyebrow">L.C.V.</div>
+        <h2>Katılım Formu</h2>
+        <p class="sub">Sizi en iyi şekilde ağırlayabilmemiz için lütfen katılım durumunuzu bildirin.</p>
+      </div>
 
       <div id="formMsg" class="form-msg" role="alert"></div>
 
@@ -473,11 +666,11 @@
           <div class="status-group" role="radiogroup" aria-label="Katılım durumu">
             <div class="status-option">
               <input type="radio" id="stKatiliyorum" name="durum" value="Katılıyorum" required />
-              <label for="stKatiliyorum">✓ Katılıyorum</label>
+              <label for="stKatiliyorum"><span class="ic">✓</span> Katılıyorum</label>
             </div>
             <div class="status-option">
               <input type="radio" id="stKatilmiyorum" name="durum" value="Katılmıyorum" />
-              <label for="stKatilmiyorum">✕ Katılmıyorum</label>
+              <label for="stKatilmiyorum"><span class="ic">✕</span> Katılmıyorum</label>
             </div>
           </div>
         </div>
@@ -488,13 +681,13 @@
                  inputmode="numeric" placeholder="Örn. 2" />
         </div>
 
-        <!-- Honeypot: gerçek kullanıcılar görmez/doldurmaz -->
+        <!-- Honeypot -->
         <div class="hp" aria-hidden="true">
           <label for="web">Web sitesi (boş bırakın)</label>
           <input type="text" id="web" name="web" tabindex="-1" autocomplete="off" />
         </div>
 
-        <button type="submit" class="btn" id="submitBtn">Gönder</button>
+        <button type="submit" class="btn" id="submitBtn">Katılımımı Gönder</button>
 
         <p class="kvkk">
           Bu form ile paylaştığınız ad, soyad ve kişi sayısı bilgileri yalnızca düğün
@@ -512,8 +705,11 @@
     </section>
 
     <!-- ==================== KONUM ==================== -->
-    <section class="location" aria-label="Mekan Konumu">
-      <h2>Konum</h2>
+    <section class="location card reveal" aria-label="Mekan Konumu">
+      <div class="section-head" style="margin-bottom:14px">
+        <div class="eyebrow">Nasıl Gelinir</div>
+        <h2 style="margin-bottom:0">Konum</h2>
+      </div>
       <div class="venue-name">Atagarden Kır Düğünü</div>
       <p class="addr">
         Sahil Mah. Marmara Cad. Ali Şir Nevai Sok. No:3<br />
@@ -521,22 +717,67 @@
       </p>
       <a class="btn" id="navBtn"
          href="https://www.google.com/maps/dir/?api=1&amp;destination=Atagarden%20K%C4%B1r%20D%C3%BC%C4%9F%C3%BCn%C3%BC%20Sahil%20Mah.%20Marmara%20Cad.%20Ali%20%C5%9Fir%20Nevai%20Sok.%20No%3A3%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul"
-         target="_blank" rel="noopener">📍 Konuma Git · Yol Tarifi Al</a>
+         target="_blank" rel="noopener">📍 Yol Tarifi Al</a>
       <div class="maps-alt">
         <a href="https://maps.apple.com/?daddr=Atagarden%20K%C4%B1r%20D%C3%BC%C4%9F%C3%BCn%C3%BC%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul"
            target="_blank" rel="noopener">Apple Haritalar ile aç</a>
       </div>
     </section>
 
-    <div class="foot">Melis &amp; Baha</div>
+    <div class="foot reveal">
+      <div class="names-sm">Melis &amp; Baha</div>
+      <div class="tag">17 . 07 . 2026</div>
+    </div>
   </main>
 
   <script>
     // ————— Apps Script Web App URL'i —————
-    // KURULUM.md'deki adımlarla oluşturduğunuz Web App URL'ini buraya yapıştırın.
-    // Örn: "https://script.google.com/macros/s/AKfyc.../exec"
     var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw1R9KWf_29KIdH9C1AQvyeRXyvprSBU95qDZRM37TTUWn3HQWp1HJ1Z3UwCxz_7zg8/exec";
 
+    /* ————— Geri sayım ————— */
+    (function () {
+      var target = new Date('2026-07-17T19:00:00+03:00').getTime();
+      var elD = document.getElementById('cdD'),
+          elH = document.getElementById('cdH'),
+          elM = document.getElementById('cdM'),
+          elS = document.getElementById('cdS'),
+          grid = document.getElementById('countdown'),
+          note = document.getElementById('cdNote');
+      function pad(n) { return (n < 10 ? '0' : '') + n; }
+      function tick() {
+        var diff = target - Date.now();
+        if (diff <= 0) {
+          grid.style.display = 'none';
+          note.style.display = 'block';
+          clearInterval(timer);
+          return;
+        }
+        var s = Math.floor(diff / 1000);
+        elD.textContent = Math.floor(s / 86400);
+        elH.textContent = pad(Math.floor((s % 86400) / 3600));
+        elM.textContent = pad(Math.floor((s % 3600) / 60));
+        elS.textContent = pad(s % 60);
+      }
+      tick();
+      var timer = setInterval(tick, 1000);
+    })();
+
+    /* ————— Kaydırınca beliriş ————— */
+    (function () {
+      var items = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        items.forEach(function (el) { el.classList.add('in'); });
+        return;
+      }
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    })();
+
+    /* ————— Form ————— */
     var form = document.getElementById('rsvpForm');
     var submitBtn = document.getElementById('submitBtn');
     var formMsg = document.getElementById('formMsg');
@@ -545,7 +786,6 @@
     var kisiInput = document.getElementById('kisi');
     var radios = document.getElementsByName('durum');
 
-    // Katılmıyorum seçilince kişi sayısı alanını gizle/pasifleştir
     function syncKisi() {
       var val = getStatus();
       if (val === 'Katılmıyorum') {
@@ -586,7 +826,6 @@
       var durum = getStatus();
       var web = document.getElementById('web').value; // honeypot
 
-      // Hafif istemci tarafı validasyon (asıl kontrol sunucuda)
       if (ad.length < 2) { showError('Lütfen adınızı girin.'); return; }
       if (soyad.length < 2) { showError('Lütfen soyadınızı girin.'); return; }
       if (!durum) { showError('Lütfen katılım durumunuzu seçin.'); return; }
@@ -613,7 +852,6 @@
 
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        // text/plain: Apps Script CORS preflight'ı desteklemez, bu yaygın çözümdür
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify(payload)
       })
