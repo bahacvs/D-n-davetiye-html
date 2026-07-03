@@ -316,6 +316,41 @@
       color: var(--muted);
       line-height: 1.7;
     }
+    .cal-add {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 9px;
+    }
+    .cal-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      color: var(--sage-dk);
+      background: #fffefb;
+      border: 1px solid var(--sage);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background 0.18s, transform 0.08s;
+    }
+    .cal-btn:hover { background: var(--sage-tint); }
+    .cal-btn:active { transform: translateY(1px); }
+    .cal-alt {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      color: var(--sage);
+      text-decoration: none;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 1px;
+    }
+    .cal-alt:hover { border-color: var(--sage); }
 
     /* ==================== FORM ==================== */
     .field { margin-bottom: 18px; }
@@ -787,6 +822,17 @@
           Ali Şir Nevai Sokak No:3<br />
           Beylikdüzü / İstanbul
         </div>
+
+        <div class="cal-add">
+          <button type="button" class="cal-btn" id="calBtn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <rect x="3" y="4.5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M3 9h18M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            </svg>
+            Takvime Ekle
+          </button>
+          <a class="cal-alt" id="calGoogle" href="#" target="_blank" rel="noopener">Google Takvim'e ekle</a>
+        </div>
       </div>
     </section>
 
@@ -853,32 +899,6 @@
         <div class="check" aria-hidden="true">✓</div>
         <h3>Teşekkürler!</h3>
         <p>Katılım bilginiz bize ulaştı. Sizi aramızda görmek için sabırsızlanıyoruz.</p>
-      </div>
-    </section>
-
-    <!-- ==================== HEDİYE / IBAN ==================== -->
-    <section class="section card gift reveal" aria-label="Hediye">
-      <div class="section-head" style="margin-bottom:16px">
-        <div class="eyebrow">Bir Küçük Not</div>
-        <h2 style="margin-bottom:0">Hediye</h2>
-      </div>
-
-      <div class="gift-icon" aria-hidden="true">
-        <svg width="34" height="30" viewBox="0 0 34 30" fill="currentColor"><path d="M17 29C8 22.5 1 17 1 9.7 1 5 4.7 1.5 9.2 1.5c2.9 0 5.6 1.5 7.8 4.3C19.2 3 21.9 1.5 24.8 1.5 29.3 1.5 33 5 33 9.7 33 17 26 22.5 17 29z"/></svg>
-      </div>
-
-      <p class="gift-note">
-        Törenimize katılamasanız da kalbinizin bizimle olduğunu biliyoruz.
-        Mutluluğumuza küçük bir dokunuşla ortak olmak isterseniz aşağıdaki hesabı
-        kullanabilirsiniz. Bizim için en değerli hediye, sevginizi bizimle paylaşmanız. 🤍
-      </p>
-
-      <div class="iban-box">
-        <div class="iban-label">IBAN</div>
-        <div class="iban-no" id="ibanNo">TR91 0006 2001 6400 0006 6984 33</div>
-        <div class="iban-name">Kenan Baha Çavuşoğlu</div>
-        <button type="button" class="btn btn-copy" id="copyIban"
-                data-iban="TR910006200164000006698433">IBAN'ı Kopyala</button>
       </div>
     </section>
 
@@ -1001,36 +1021,42 @@
       items.forEach(function (el) { io.observe(el); });
     })();
 
-    /* ————— IBAN kopyala ————— */
+    /* ————— Takvime ekle ————— */
     (function () {
-      var btn = document.getElementById('copyIban');
-      if (!btn) return;
-      var original = btn.textContent;
-      btn.addEventListener('click', function () {
-        var iban = btn.getAttribute('data-iban');
-        function done() {
-          btn.textContent = 'Kopyalandı ✓';
-          btn.classList.add('copied');
-          setTimeout(function () {
-            btn.textContent = original;
-            btn.classList.remove('copied');
-          }, 2000);
-        }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(iban).then(done).catch(fallback);
-        } else {
-          fallback();
-        }
-        function fallback() {
-          var t = document.createElement('textarea');
-          t.value = iban;
-          t.style.position = 'fixed';
-          t.style.opacity = '0';
-          document.body.appendChild(t);
-          t.select();
-          try { document.execCommand('copy'); done(); } catch (e) {}
-          document.body.removeChild(t);
-        }
+      var START = '20260717T160000Z'; // 17 Tem 2026 19:00 (Europe/Istanbul, UTC+3)
+      var END   = '20260717T200000Z'; // 23:00 yerel
+      var TITLE = 'Melis & Baha Düğünü';
+      var LOC   = 'Atagarden Kır Düğünü, Sahil Mah. Marmara Cad. Ali Şir Nevai Sok. No:3, Beylikdüzü / İstanbul';
+      var DESC  = "Melis & Baha'nın düğün törenine davetlisiniz. 🤍";
+
+      // Google Takvim linki
+      var g = document.getElementById('calGoogle');
+      if (g) {
+        g.href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+          + '&text=' + encodeURIComponent(TITLE)
+          + '&dates=' + START + '/' + END
+          + '&location=' + encodeURIComponent(LOC)
+          + '&details=' + encodeURIComponent(DESC);
+      }
+
+      // .ics indirme (Apple/Outlook)
+      function esc(s) { return String(s).replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n'); }
+      var ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//MelisBaha//Dugun//TR', 'CALSCALE:GREGORIAN',
+        'BEGIN:VEVENT', 'UID:melis-baha-2026-07-17@evleniyoruzmelisbaha',
+        'DTSTAMP:20260703T000000Z', 'DTSTART:' + START, 'DTEND:' + END,
+        'SUMMARY:' + esc(TITLE), 'LOCATION:' + esc(LOC), 'DESCRIPTION:' + esc(DESC),
+        'END:VEVENT', 'END:VCALENDAR'
+      ].join('\r\n');
+
+      var btn = document.getElementById('calBtn');
+      if (btn) btn.addEventListener('click', function () {
+        var blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'Melis-Baha-Dugun.ics';
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
       });
     })();
 
