@@ -31,6 +31,12 @@ var VALID_STATUSES = ['Katılıyorum', 'Katılmıyorum'];
 var PHOTO_FOLDER_NAME = 'Düğün Fotoğrafları'; // Drive'da fotoğrafların gideceği klasör
 var MAX_PHOTO_BYTES = 15 * 1024 * 1024;       // Dosya başına en fazla ~15 MB (çözülmüş boyut)
 
+// Zaman kapsülü ayarları
+var KAPSUL_SHEET = 'Zaman Kapsülü';
+var KAPSUL_HEADERS = ['Zaman Damgası', 'Ad', 'Mesaj'];
+var COUPLE_EMAIL = 'kenanbahacavusogluu@gmail.com'; // Mesajların 1. yıl gönderileceği adres
+var ANNIVERSARY = '2027-07-17';                     // 1. evlilik yıldönümü (YYYY-MM-DD)
+
 // ————————————————————————————————————————————————
 // HTTP giriş noktaları
 // ————————————————————————————————————————————————
@@ -62,6 +68,11 @@ function doPost(e) {
     // 1b) Fotoğraf yükleme isteği mi? (LCV mantığından ayrı işle)
     if (body.type === 'photo') {
       return handlePhoto_(body);
+    }
+
+    // 1c) Zaman kapsülü mesajı mı?
+    if (body.type === 'kapsul') {
+      return handleKapsul_(body);
     }
 
     // 2) Alanları normalize et
@@ -255,6 +266,83 @@ function handlePhoto_(body) {
   }
 
   return jsonOut({ ok: true });
+}
+
+// ————————————————————————————————————————————————
+// Zaman kapsülü
+// ————————————————————————————————————————————————
+
+/**
+ * Bir zaman kapsülü mesajını "Zaman Kapsülü" sayfasına yazar.
+ * Beklenen gövde: { type:'kapsul', mesaj:'...', ad? }
+ */
+function handleKapsul_(body) {
+  try {
+    var ad = sanitizeName_(body.ad);
+    var mesaj = String(body.mesaj == null ? '' : body.mesaj).trim();
+    if (mesaj.length < 3) {
+      return jsonOut({ ok: false, error: 'Lütfen kısa da olsa bir mesaj yazın.' }, 400);
+    }
+    if (mesaj.length > 1000) mesaj = mesaj.slice(0, 1000);
+
+    var lock = LockService.getScriptLock();
+    lock.waitLock(20000);
+    try {
+      var sheet = getKapsulSheet_();
+      sheet.appendRow([new Date(), safeCell_(ad), safeCell_(mesaj)]);
+    } finally {
+      lock.releaseLock();
+    }
+    return jsonOut({ ok: true });
+  } catch (ex) {
+    return jsonOut({ ok: false, error: 'Mesaj kaydedilemedi.', detay: String((ex && ex.message) || ex) }, 500);
+  }
+}
+
+/** "Zaman Kapsülü" sayfasını (başlık satırıyla) döndürür, yoksa oluşturur. */
+function getKapsulSheet_() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(KAPSUL_SHEET);
+  if (!sheet) sheet = ss.insertSheet(KAPSUL_SHEET);
+  if (sheet.getLastRow() === 0) {
+    sheet.appendRow(KAPSUL_HEADERS);
+    sheet.setFrozenRows(1);
+  }
+  return sheet;
+}
+
+/**
+ * TETİKLEYİCİ FONKSİYONU — günlük bir zaman tetikleyicisine bağla.
+ * Yıldönümü gelince (ANNIVERSARY) tüm kapsül mesajlarını bir kez e-postayla gönderir.
+ * Script Properties'te bir bayrak tutarak tekrar göndermeyi önler.
+ */
+function kapsulKontrol() {
+  var today = Utilities.formatDate(new Date(), 'Europe/Istanbul', 'yyyy-MM-dd');
+  if (today < ANNIVERSARY) return; // henüz zamanı gelmedi
+
+  var props = PropertiesService.getScriptProperties();
+  if (props.getProperty('kapsulGonderildi') === '1') return; // zaten gönderildi
+
+  kapsulGonder_();
+  props.setProperty('kapsulGonderildi', '1');
+}
+
+/** Tüm kapsül mesajlarını çifte e-postayla gönderir. (Elle de çalıştırılabilir.) */
+function kapsulGonder_() {
+  var sheet = getKapsulSheet_();
+  var last = sheet.getLastRow();
+  var body = 'Melis & Baha — Zaman Kapsülü 🤍\n1. yıldönümünüz kutlu olsun! Düğününüzde bırakılan mesajlar:\n\n';
+  if (last >= 2) {
+    var rows = sheet.getRange(2, 1, last - 1, 3).getValues();
+    for (var i = 0; i < rows.length; i++) {
+      var ad = String(rows[i][1] || '').replace(/^'/, '') || 'İsimsiz';
+      var msg = String(rows[i][2] || '').replace(/^'/, '');
+      body += '— ' + ad + ':\n' + msg + '\n\n';
+    }
+  } else {
+    body += '(Mesaj bulunamadı.)';
+  }
+  MailApp.sendEmail(COUPLE_EMAIL, 'Zaman Kapsülü — 1. Yıldönümünüz 🤍', body);
 }
 
 /**

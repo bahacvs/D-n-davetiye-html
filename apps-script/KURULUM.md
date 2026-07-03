@@ -80,7 +80,24 @@ dışarıya listelemez/göstermez.
 
 ---
 
-## Test etme
+## Zaman Kapsülü (1. yıla mesaj)
+
+Misafirler siteden çifte bir mesaj bırakır; mesajlar **"Zaman Kapsülü"** sayfasına yazılır
+ve **1. evlilik yıldönümünde** (`ANNIVERSARY`) tek seferde çifte (`COUPLE_EMAIL`) e-postayla
+gönderilir.
+
+**Kurulum:**
+
+1. `Code.gs` içindeki `COUPLE_EMAIL` ve `ANNIVERSARY` değerlerini kontrol et/güncelle.
+2. Manifest'e e-posta iznini ekle: `appsscript.json` → `oauthScopes` listesine
+   `"https://www.googleapis.com/auth/script.send_mail"` ekle.
+3. Editörde `doGet`'i çalıştırıp yeni izni onayla → **Dağıt → Dağıtımları yönet → Yeni sürüm**.
+4. **Yıldönümü tetikleyicisini kur** (mesajların otomatik gitmesi için):
+   - Sol menü → **Tetikleyiciler (⏰) → Tetikleyici ekle**
+   - Fonksiyon: **`kapsulKontrol`** · Olay kaynağı: **Zamana dayalı** · **Gün zamanlayıcı**
+     (örn. her sabah). Bu fonksiyon her gün tarihi kontrol eder; yıldönümü gelince mesajları
+     bir kez gönderir, sonra kendini tekrar göndermez.
+   - Alternatif: yıldönümünde **`kapsulGonder_`** fonksiyonunu elle bir kez çalıştır.
 
 Formu doldurup gönder → Google Sheet'te **LCV** sayfasına yeni bir satır düşmeli.
 

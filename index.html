@@ -365,7 +365,8 @@
       margin-bottom: 8px;
     }
     .field input[type="text"],
-    .field input[type="number"] {
+    .field input[type="number"],
+    .field textarea {
       width: 100%;
       padding: 14px 15px;
       font-size: 16px; /* iOS zoom önleme */
@@ -378,11 +379,17 @@
       outline: none;
       transition: border-color 0.18s, box-shadow 0.18s;
     }
-    .field input::placeholder { color: #bdb6a7; }
-    .field input:focus {
+    .field textarea { resize: vertical; min-height: 92px; line-height: 1.6; }
+    .field input::placeholder,
+    .field textarea::placeholder { color: #bdb6a7; }
+    .field input:focus,
+    .field textarea:focus {
       border-color: var(--sage);
       box-shadow: 0 0 0 3px rgba(111,118,99,0.12);
     }
+    .kapsul { text-align: center; }
+    .kapsul .gift-note strong { font-weight: 600; color: var(--sage-dk); font-style: normal; }
+    .kapsul form { text-align: left; }
 
     .status-group {
       display: grid;
@@ -968,6 +975,55 @@
       </p>
     </section>
 
+    <!-- ==================== ZAMAN KAPSÜLÜ ==================== -->
+    <section class="section card kapsul reveal" aria-label="Zaman Kapsülü">
+      <div class="section-head" style="margin-bottom:16px">
+        <div class="eyebrow">Zaman Kapsülü</div>
+        <h2 style="margin-bottom:0">1. Yıla Mesaj</h2>
+      </div>
+
+      <div class="gift-icon" aria-hidden="true">
+        <svg width="34" height="34" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <p class="gift-note">
+        Bize bir mesaj bırakın; bu mesajı mühürleyip <strong>1. evlilik yıldönümümüzde
+        (17 Temmuz 2027)</strong> açıp okuyacağız. 🤍
+      </p>
+
+      <div id="kapsulMsg" class="form-msg" role="status" aria-live="polite"></div>
+
+      <form id="kapsulForm" novalidate>
+        <div class="field">
+          <label for="kapsulAd">Adınız</label>
+          <input type="text" id="kapsulAd" maxlength="50" autocomplete="name" placeholder="Adınız (opsiyonel)" />
+        </div>
+        <div class="field">
+          <label for="kapsulText">Mesajınız</label>
+          <textarea id="kapsulText" maxlength="1000" rows="4" required
+                    placeholder="Çifte 1. yıllarında okumaları için birkaç kelime…"></textarea>
+        </div>
+
+        <!-- Honeypot -->
+        <div class="hp" aria-hidden="true">
+          <label for="kapsulWeb">Web sitesi (boş bırakın)</label>
+          <input type="text" id="kapsulWeb" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <button type="submit" class="btn" id="kapsulBtn">Kapsüle Ekle</button>
+        <p class="kvkk">Mesajınız yalnızca çifte, 1. yıldönümlerinde iletilmek üzere saklanır.</p>
+      </form>
+
+      <div class="success" id="kapsulSuccess">
+        <div class="check" aria-hidden="true">✓</div>
+        <h3>Mühürlendi!</h3>
+        <p>Mesajınız zaman kapsülüne eklendi. 1. yıldönümümüzde okuyacağız. 🤍</p>
+      </div>
+    </section>
+
     <div class="foot reveal">
       <div class="names-sm">Melis &amp; Baha</div>
       <div class="tag">17 . 07 . 2026</div>
@@ -1190,6 +1246,57 @@
             });
           });
         })(0);
+      });
+    })();
+
+    /* ————— Zaman kapsülü ————— */
+    (function () {
+      var form = document.getElementById('kapsulForm');
+      if (!form) return;
+      var btn = document.getElementById('kapsulBtn');
+      var msg = document.getElementById('kapsulMsg');
+      var success = document.getElementById('kapsulSuccess');
+      var adEl = document.getElementById('kapsulAd');
+      var textEl = document.getElementById('kapsulText');
+      var webEl = document.getElementById('kapsulWeb');
+
+      function showErr(t) { msg.textContent = t; msg.className = 'form-msg error'; }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        msg.textContent = ''; msg.className = 'form-msg';
+        var mesaj = (textEl.value || '').trim();
+        if (mesaj.length < 3) { showErr('Lütfen kısa da olsa bir mesaj yazın.'); return; }
+
+        btn.disabled = true;
+        var original = btn.textContent;
+        btn.textContent = 'Gönderiliyor…';
+
+        fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            type: 'kapsul',
+            ad: (adEl.value || '').trim(),
+            mesaj: mesaj,
+            web: webEl.value
+          })
+        })
+          .then(function (r) { return r.json(); })
+          .then(function (d) {
+            if (d && d.ok) {
+              form.style.display = 'none';
+              success.classList.add('show');
+              success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+              showErr((d && d.error) || 'Mesajınız iletilemedi, lütfen tekrar deneyin.');
+              btn.disabled = false; btn.textContent = original;
+            }
+          })
+          .catch(function () {
+            showErr('Mesajınız iletilemedi, lütfen tekrar deneyin.');
+            btn.disabled = false; btn.textContent = original;
+          });
       });
     })();
 
