@@ -554,6 +554,92 @@
       border-color: var(--sage);
     }
 
+    /* ==================== FOTOĞRAF PAYLAŞ ==================== */
+    .photo { text-align: center; }
+    .photo .gift-note { margin-bottom: 20px; }
+    .photo .foto-name {
+      max-width: 420px;
+      margin: 0 auto 14px;
+    }
+    .photo .foto-name input {
+      width: 100%;
+      padding: 14px 15px;
+      font-size: 16px;
+      font-family: var(--sans);
+      font-weight: 400;
+      color: var(--ink);
+      background: #fffefb;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      outline: none;
+      text-align: center;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .photo .foto-name input::placeholder { color: #bdb6a7; }
+    .photo .foto-name input:focus {
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(111,118,99,0.12);
+    }
+    /* Gizli native input + şık seçim alanı */
+    .foto-pick input[type="file"] {
+      position: absolute;
+      width: 1px; height: 1px;
+      opacity: 0; overflow: hidden;
+    }
+    .foto-drop {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      max-width: 420px;
+      margin: 0 auto 14px;
+      padding: 26px 18px;
+      border: 1.5px dashed var(--gold-soft);
+      border-radius: 14px;
+      background: var(--sage-tint);
+      cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .foto-drop:hover { border-color: var(--gold); }
+    .foto-drop .ic { color: var(--gold); }
+    .foto-drop .t {
+      font-family: var(--sans);
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--sage-dk);
+      letter-spacing: 0.3px;
+    }
+    .foto-drop .s {
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .foto-list {
+      max-width: 420px;
+      margin: 0 auto 14px;
+      font-family: var(--sans);
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      display: none;
+    }
+    .foto-list.show { display: block; }
+    .photo .btn { max-width: 420px; margin: 0 auto; }
+    .form-msg.success {
+      display: block;
+      background: var(--sage-tint);
+      color: var(--sage-dk);
+      border: 1px solid var(--sage);
+    }
+    .form-msg.info {
+      display: block;
+      background: #f6f2ea;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
     /* ==================== KONUM ==================== */
     .location { padding: 38px 28px 34px; text-align: center; }
     .location .venue-name {
@@ -816,6 +902,52 @@
       </div>
     </section>
 
+    <!-- ==================== FOTOĞRAF PAYLAŞ ==================== -->
+    <section class="section card photo reveal" aria-label="Fotoğraf Paylaşımı">
+      <div class="section-head" style="margin-bottom:16px">
+        <div class="eyebrow">Anılar</div>
+        <h2 style="margin-bottom:0">Fotoğraflarınızı Paylaşın</h2>
+      </div>
+
+      <p class="gift-note">
+        Bu güzel günden çektiğiniz kareleri bizimle paylaşın; her biri
+        albümümüzde yerini alsın. 🤍
+      </p>
+
+      <div class="foto-name">
+        <input type="text" id="fotoAd" maxlength="50" autocomplete="name"
+               placeholder="Adınız (opsiyonel)" aria-label="Adınız (opsiyonel)" />
+      </div>
+
+      <div class="foto-pick">
+        <label class="foto-drop" for="fotoInput">
+          <svg class="ic" width="34" height="30" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 7h3l1.2-2h7.6L17 7h3a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="12" cy="13" r="3.4" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <span class="t">Fotoğraf Seç</span>
+          <span class="s">Birden fazla seçebilirsiniz</span>
+        </label>
+        <input type="file" id="fotoInput" accept="image/*" multiple />
+      </div>
+
+      <div class="foto-list" id="fotoList" aria-live="polite"></div>
+
+      <div id="fotoMsg" class="form-msg" role="status" aria-live="polite"></div>
+
+      <button type="button" class="btn" id="fotoBtn" disabled>Fotoğrafları Yükle</button>
+
+      <!-- Honeypot -->
+      <div class="hp" aria-hidden="true">
+        <label for="fotoWeb">Web sitesi (boş bırakın)</label>
+        <input type="text" id="fotoWeb" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <p class="kvkk">
+        Yüklediğiniz fotoğraflar yalnızca çiftin düğün albümü için kullanılır.
+      </p>
+    </section>
+
     <div class="foot reveal">
       <div class="names-sm">Melis &amp; Baha</div>
       <div class="tag">17 . 07 . 2026</div>
@@ -899,6 +1031,139 @@
           try { document.execCommand('copy'); done(); } catch (e) {}
           document.body.removeChild(t);
         }
+      });
+    })();
+
+    /* ————— Fotoğraf yükleme ————— */
+    (function () {
+      var input = document.getElementById('fotoInput');
+      var btn = document.getElementById('fotoBtn');
+      var list = document.getElementById('fotoList');
+      var msg = document.getElementById('fotoMsg');
+      var adEl = document.getElementById('fotoAd');
+      var webEl = document.getElementById('fotoWeb');
+      if (!input || !btn) return;
+
+      var MAX_EDGE = 2000;      // sıkıştırma sonrası en uzun kenar (px)
+      var QUALITY = 0.85;       // JPEG kalitesi
+      var MAX_RAW = 15 * 1024 * 1024; // fallback ham yükleme sınırı (~15MB)
+      var files = [];
+
+      function setMsg(text, cls) {
+        msg.textContent = text || '';
+        msg.className = 'form-msg' + (cls ? ' ' + cls : '');
+      }
+
+      input.addEventListener('change', function () {
+        files = Array.prototype.slice.call(input.files || []);
+        if (files.length) {
+          var names = files.map(function (f) { return f.name; }).join(', ');
+          list.textContent = files.length + ' fotoğraf seçildi: ' + names;
+          list.classList.add('show');
+          btn.disabled = false;
+        } else {
+          list.textContent = '';
+          list.classList.remove('show');
+          btn.disabled = true;
+        }
+        setMsg('');
+      });
+
+      // Bir dosyayı canvas ile küçültüp base64 (JPEG) döndürür; olmazsa null.
+      function compress(file) {
+        return new Promise(function (resolve) {
+          if (!/^image\//.test(file.type)) { resolve(null); return; }
+          var url = URL.createObjectURL(file);
+          var img = new Image();
+          img.onload = function () {
+            try {
+              var w = img.naturalWidth, h = img.naturalHeight;
+              var scale = Math.min(1, MAX_EDGE / Math.max(w, h));
+              var cw = Math.max(1, Math.round(w * scale));
+              var ch = Math.max(1, Math.round(h * scale));
+              var canvas = document.createElement('canvas');
+              canvas.width = cw; canvas.height = ch;
+              canvas.getContext('2d').drawImage(img, 0, 0, cw, ch);
+              var dataUrl = canvas.toDataURL('image/jpeg', QUALITY);
+              URL.revokeObjectURL(url);
+              var comma = dataUrl.indexOf(',');
+              if (comma < 0) { resolve(null); return; }
+              resolve({ mime: 'image/jpeg', data: dataUrl.slice(comma + 1),
+                        filename: file.name.replace(/\.[^.]+$/, '') + '.jpg' });
+            } catch (e) { URL.revokeObjectURL(url); resolve(null); }
+          };
+          img.onerror = function () { URL.revokeObjectURL(url); resolve(null); };
+          img.src = url;
+        });
+      }
+
+      // Fallback: dosyayı olduğu gibi base64 oku.
+      function readRaw(file) {
+        return new Promise(function (resolve) {
+          if (file.size > MAX_RAW) { resolve(null); return; }
+          var r = new FileReader();
+          r.onload = function () {
+            var res = String(r.result);
+            var comma = res.indexOf(',');
+            if (comma < 0) { resolve(null); return; }
+            resolve({ mime: file.type || 'image/jpeg', data: res.slice(comma + 1),
+                      filename: file.name });
+          };
+          r.onerror = function () { resolve(null); };
+          r.readAsDataURL(file);
+        });
+      }
+
+      function sendOne(payload) {
+        return fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            type: 'photo',
+            ad: (adEl.value || '').trim(),
+            filename: payload.filename,
+            mime: payload.mime,
+            data: payload.data,
+            web: webEl.value
+          })
+        }).then(function (r) { return r.json(); })
+          .then(function (d) { return !!(d && d.ok); })
+          .catch(function () { return false; });
+      }
+
+      btn.addEventListener('click', function () {
+        if (!files.length) return;
+        btn.disabled = true;
+        input.disabled = true;
+        var ok = 0, fail = 0, total = files.length;
+
+        (function next(i) {
+          if (i >= total) {
+            input.disabled = false;
+            if (ok && !fail) {
+              setMsg(ok + ' fotoğraf yüklendi, teşekkürler! 🤍', 'success');
+              list.classList.remove('show'); list.textContent = '';
+              input.value = ''; files = [];
+            } else if (ok && fail) {
+              setMsg(ok + ' fotoğraf yüklendi, ' + fail + ' tanesi yüklenemedi. Tekrar deneyebilirsiniz.', 'info');
+              btn.disabled = false;
+            } else {
+              setMsg('Fotoğraflar yüklenemedi. Lütfen tekrar deneyin.', 'error');
+              btn.disabled = false;
+            }
+            return;
+          }
+          setMsg('Yükleniyor… ' + (i + 1) + '/' + total, 'info');
+          compress(files[i]).then(function (payload) {
+            return payload || readRaw(files[i]);
+          }).then(function (payload) {
+            if (!payload) { fail++; next(i + 1); return; }
+            sendOne(payload).then(function (success) {
+              if (success) ok++; else fail++;
+              next(i + 1);
+            });
+          });
+        })(0);
       });
     })();
 

@@ -54,6 +54,32 @@ backend kurulumunu anlatır. Toplam süre ~10 dakika. Kod bilgisi gerekmez.
 
 ---
 
+## Fotoğraf yükleme (Drive'a kaydetme)
+
+Site, misafirlerin düğün fotoğraflarını yüklemesine izin verir. Fotoğraflar, bu script'in
+sahibi olan Google hesabının **Drive'ında `Düğün Fotoğrafları` klasörüne** kaydedilir
+(klasör ilk yüklemede otomatik oluşur). Fotoğraf verisi aynı Web App endpoint'ine gider;
+`type: "photo"` alanıyla LCV kaydından ayrılır.
+
+**Bu özelliği açmak için script'i güncelleyip yeniden yayınla:**
+
+1. Depodaki güncel [`Code.gs`](./Code.gs) içeriğini kopyala, Apps Script editöründeki her
+   şeyi silip yapıştır → **Kaydet**.
+2. **URL'i korumak için** (site aynı URL'i kullanıyor): **Dağıt → Dağıtımları yönet →**
+   mevcut dağıtımın yanındaki ✏️ (Düzenle) → **Sürüm: Yeni sürüm** → **Dağıt**.
+   > ⚠️ "Yeni dağıtım" AÇMA — o yeni bir URL üretir. Mevcut dağıtımı "yeni sürüm" olarak
+   > güncelle ki `/exec` URL'i değişmesin.
+3. İlk kez **Drive yetkisi** istenir (script artık Drive'a dosya yazacağı için):
+   "Yetkileri incele → hesabını seç → Gelişmiş → …proje adına git → İzin ver".
+4. Bitti. Sitede ek bir değişiklik gerekmez.
+
+**Güvenlik/sınırlar:** Yalnızca resim dosyaları (`image/*`) kabul edilir; dosya başına
+~15 MB sınır vardır; dosya adları temizlenir. Fotoğraflar senin Drive kotanı kullanır
+(ücretsiz 15 GB). Site, fotoğrafları yalnızca **yükler**; hiçbir fotoğrafı veya klasörü
+dışarıya listelemez/göstermez.
+
+---
+
 ## Test etme
 
 Formu doldurup gönder → Google Sheet'te **LCV** sayfasına yeni bir satır düşmeli.
@@ -96,6 +122,16 @@ function test_duplicate() {
     ad: 'Ayşe', soyad: 'Yılmaz', durum: 'Katılmıyorum', kisi: 0, web: ''
   }) } };
   Logger.log(doPost(e).getContent()); // {"ok":true}
+}
+
+function test_foto() {
+  // 1x1 saydam PNG (base64). Çalıştırınca Drive'da "Düğün Fotoğrafları"
+  // klasörü oluşur ve içine küçük bir test görseli düşer.
+  var png1x1 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQDJ/pLvAAAAAElFTkSuQmCC';
+  var e = { postData: { contents: JSON.stringify({
+    type: 'photo', ad: 'Test', filename: 'test.png', mime: 'image/png', data: png1x1, web: ''
+  }) } };
+  Logger.log(doPost(e).getContent()); // beklenen: {"ok":true}
 }
 ```
 
