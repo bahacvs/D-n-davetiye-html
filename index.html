@@ -77,6 +77,120 @@
       .reveal { opacity: 1; transform: none; transition: none; }
     }
 
+    /* ————— Açılış zarfı ————— */
+    body.envelope-locked { overflow: hidden; }
+    .envelope-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 26px;
+      background: radial-gradient(130% 80% at 50% 20%, #fbf8f2 0%, var(--bg) 60%, var(--bg-2) 100%);
+      perspective: 1200px;
+      transition: opacity 0.9s ease 0.55s, visibility 0s linear 1.45s;
+    }
+    .envelope-overlay.open {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .envelope {
+      position: relative;
+      width: 280px;
+      height: 188px;
+      cursor: pointer;
+      filter: drop-shadow(0 22px 34px rgba(80,70,45,0.22));
+    }
+    .envelope-body {
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background: linear-gradient(160deg, #fffdf8, #f3ece0);
+      border: 1px solid var(--gold-soft);
+    }
+    .envelope-body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 8px;
+      background:
+        linear-gradient(to top right, transparent 49.6%, var(--line) 49.6%, var(--line) 50.4%, transparent 50.4%) no-repeat left bottom / 50% 100%,
+        linear-gradient(to top left, transparent 49.6%, var(--line) 49.6%, var(--line) 50.4%, transparent 50.4%) no-repeat right bottom / 50% 100%;
+    }
+    .envelope-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 112px;
+      z-index: 3;
+      background: linear-gradient(160deg, #f7f0e3, #eadfcb);
+      border: 1px solid var(--gold-soft);
+      border-bottom: none;
+      clip-path: polygon(0 0, 100% 0, 50% 92%);
+      transform-origin: top center;
+      transition: transform 0.85s cubic-bezier(0.6,0.05,0.25,1);
+      backface-visibility: hidden;
+    }
+    .envelope-overlay.open .envelope-flap {
+      transform: rotateX(-172deg);
+      z-index: 1;
+    }
+    .envelope-seal {
+      position: absolute;
+      top: 72px;
+      left: 50%;
+      z-index: 4;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #cbb26a, var(--gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 17px;
+      color: #fff8e8;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 10px rgba(120,95,40,0.35), inset 0 0 0 2px rgba(255,255,255,0.25);
+      transform: translateX(-50%);
+      transition: opacity 0.4s ease, transform 0.5s ease;
+    }
+    .envelope-overlay.open .envelope-seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(1.5);
+    }
+    .envelope-hint {
+      font-family: var(--sans);
+      font-weight: 400;
+      font-size: 13px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--gold);
+      animation: envelopePulse 2s ease-in-out infinite;
+    }
+    .envelope-overlay.open .envelope-hint {
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    @keyframes envelopePulse {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .envelope-overlay,
+      .envelope-flap,
+      .envelope-seal,
+      .envelope-hint {
+        animation: none;
+        transition: none;
+      }
+    }
+
     /* ————— Ortak süs ————— */
     .ornament {
       display: flex;
@@ -756,7 +870,17 @@
     }
   </style>
 </head>
-<body>
+<body class="envelope-locked">
+  <!-- ==================== AÇILIŞ ZARFI ==================== -->
+  <div class="envelope-overlay" id="envelopeOverlay" role="button" tabindex="0" aria-label="Davetiyeyi aç">
+    <div class="envelope" aria-hidden="true">
+      <div class="envelope-body"></div>
+      <div class="envelope-flap"></div>
+      <div class="envelope-seal">M&amp;B</div>
+    </div>
+    <div class="envelope-hint">Davetiyeyi açmak için dokunun</div>
+  </div>
+
   <main class="wrap">
 
     <!-- ==================== DAVETİYE ==================== -->
@@ -1033,6 +1157,28 @@
   <script>
     // ————— Apps Script Web App URL'i —————
     var APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzmSwG9xsJrLghghiOMk8jgs_s4oh97qCfpBtQ4RmUWi9pyKIyYLqSncqLrw_mO5grX/exec";
+
+    /* ————— Açılış zarfı ————— */
+    (function () {
+      var overlay = document.getElementById('envelopeOverlay');
+      if (!overlay) return;
+
+      function openEnvelope() {
+        overlay.classList.add('open');
+        document.body.classList.remove('envelope-locked');
+        setTimeout(function () {
+          if (overlay && overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        }, 1500);
+      }
+
+      overlay.addEventListener('click', openEnvelope);
+      overlay.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openEnvelope();
+        }
+      });
+    })();
 
     /* ————— Geri sayım ————— */
     (function () {
