@@ -1054,7 +1054,7 @@
     </section>
 
     <!-- ==================== FOTOĞRAF PAYLAŞ ==================== -->
-    <section class="section card photo reveal" aria-label="Fotoğraf Paylaşımı">
+    <section class="section card photo reveal" id="foto" aria-label="Fotoğraf Paylaşımı">
       <div class="section-head" style="margin-bottom:16px">
         <div class="eyebrow">Anılar</div>
         <h2 style="margin-bottom:0">Fotoğraflarınızı Paylaşın</h2>
@@ -1221,6 +1221,20 @@
         });
       }, { threshold: 0.12 });
       items.forEach(function (el) { io.observe(el); });
+    })();
+
+    /* ————— Karekod: #foto ile direkt fotoğraf yükleme alanına ————— */
+    (function () {
+      if (location.hash !== '#foto') return;
+      // Açılış zarfını atla
+      var ov = document.getElementById('envelopeOverlay');
+      if (ov && ov.parentNode) ov.parentNode.removeChild(ov);
+      document.body.classList.remove('envelope-locked');
+      // Tüm bölümleri hemen görünür yap (beliriş animasyonunu bekletme)
+      document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
+      // Fotoğraf bölümüne kaydır
+      var t = document.getElementById('foto');
+      if (t) setTimeout(function () { t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
     })();
 
     /* ————— Takvime ekle ————— */
